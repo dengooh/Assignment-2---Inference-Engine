@@ -1,5 +1,6 @@
 import sys
 
+
 class KB_DATA:
     def __init__(self):
         self.filename = sys.argv[1]
@@ -17,7 +18,6 @@ class KB_DATA:
                 
             else:
                 return None
-            
             
         return kb_data_line
     

@@ -3,7 +3,7 @@ from tt import TruthTable
 from bc import BackwardChaining
 
 # testing clauses
-clauses = ["p2 => p3", "p3 => p1", "c => e", "b&e => f", "f&g => h", "p2&p1&p3 => d", "p1&p3 => c", "a", "b", "p2"]
+clauses = ["a => b; a"]
 
 # instantiate KB instance
 kb = KnowledgeBase(clauses)

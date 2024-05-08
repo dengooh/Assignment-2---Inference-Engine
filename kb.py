@@ -26,6 +26,7 @@ class KnowledgeBase:
             if "=>" in clause:
                 # if '=>' is in the clause, it's an implication rule
                 premises, conclusion = map(str.strip, clause.split("=>"))
+                print(premises)
                 premises = tuple(map(str.strip, premises.split("&")))
                 # update the symbols set with premises and conclusion to ensure all are tracked
                 self.symbols.update(premises)

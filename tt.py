@@ -28,8 +28,9 @@ class TruthTable:
 
         # generate all possible truth assignments for the symbols.
         for combination in product([True, False], repeat=len(symbols)):
-            # create a dictionary from symbols to their truth values
+            # create a dictionary from symbols to their truth values (truth table)
             assignment = dict(zip(symbols, combination))
+            print(assignment)
             # evaluate the entire knowledge base under the current truth assignment
             if self.evaluate_knowledge_base(assignment):
                 # increment total models where the KB is true
@@ -38,8 +39,8 @@ class TruthTable:
                 if assignment.get(query, False):
                     # increment the count by 1
                     models_count += 1
-
         # check if the query is true in all models where the KB is true
+        print(total_models, models_count)
         if models_count == total_models and total_models > 0:
             # return "YES" and the number of models
             return f"YES: {models_count}"
@@ -66,7 +67,7 @@ class TruthTable:
         # ensure that all standalone facts are true in the current assignment.
         for fact in self.kb.facts:
             if not assignment.get(fact, False):
-                # if any fact if not true, the KB isn't true under this assignment
+                # if any fact is not true, the KB isn't true under this assignment
                 return False
 
         # if all checks pass, the KB is true under this assignment
