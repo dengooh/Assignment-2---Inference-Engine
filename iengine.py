@@ -1,7 +1,7 @@
 from kb import KnowledgeBase
 from tt import TruthTable
 from bc import BackwardChaining
-from parse_clause import KB_DATA
+from parse_file import KB_DATA
 
 
 data = KB_DATA()
@@ -9,13 +9,6 @@ clauses = data.TellData()
 # clauses = ["p2 => p3", "p3 => p1", "c => e", "b&e => f", "f&g => h", "p2&p1&p3 => d", "p1&p3 => c", "a", "b", "p2"]
 query_data = data.QueryData()
 
-
-# testing clauses
-<<<<<<< HEAD
-clauses = ["a => b; a"]
-=======
-
->>>>>>> refs/remotes/origin/main
 
 # instantiate KB instance
 kb = KnowledgeBase(clauses)

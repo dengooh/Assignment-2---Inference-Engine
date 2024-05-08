@@ -30,7 +30,6 @@ class TruthTable:
         for combination in product([True, False], repeat=len(symbols)):
             # create a dictionary from symbols to their truth values (truth table)
             assignment = dict(zip(symbols, combination))
-            print(assignment)
             # evaluate the entire knowledge base under the current truth assignment
             if self.evaluate_knowledge_base(assignment):
                 # increment total models where the KB is true
@@ -40,7 +39,6 @@ class TruthTable:
                     # increment the count by 1
                     models_count += 1
         # check if the query is true in all models where the KB is true
-        print(total_models, models_count)
         if models_count == total_models and total_models > 0:
             # return "YES" and the number of models
             return f"YES: {models_count}"
