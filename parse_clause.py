@@ -24,8 +24,6 @@ class KB_DATA:
     def QueryData(self):
         with open(self.filename, "r") as file:
             
-        
-        
             next(file)
             next(file)
             next(file)
