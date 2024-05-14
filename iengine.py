@@ -1,6 +1,7 @@
 from kb import KnowledgeBase
 from tt import TruthTable
 from bc import BackwardChaining
+from fc import ForwardChaining
 from parse_file import KB_DATA
 
 
@@ -12,6 +13,7 @@ query_data = data.QueryData()
 
 # instantiate KB instance
 kb = KnowledgeBase(clauses)
+
 # instantiate BV instance using KB
 bc = BackwardChaining(kb)
 # query the kb using backward chaining to check if 'd' can be proven
@@ -25,3 +27,10 @@ tt = TruthTable(kb)
 truth_table_result = tt.query(query_data)
 # print the result
 print("Truth Table result:", truth_table_result)
+
+# instantiate the FC using KB
+fc = ForwardChaining(kb)
+# query the KB using forward chaining to check if 'd' can be proven
+result, derived = fc.query("d")
+# print the result
+print("Forward Chaining result:", "YES:" + ', '.join(derived) if result else "NO")
