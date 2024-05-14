@@ -1,21 +1,19 @@
 class ForwardChaining:
     def __init__(self, knowledge_base):
         """
-        Initialize the ForwardChaining instance with a knowledge base.
-
-        Args:
+        initialize the ForwardChaining instance with a knowledge base.
+        :param:
             knowledge_base (KnowledgeBase): The knowledge base containing facts and rules.
         """
         self.kb = knowledge_base
 
     def query(self, query):
         """
-        Perform a forward chaining query to determine if a specific proposition can be derived.
-
-        Args:
+        perform a forward chaining query to determine if a specific proposition can be derived.
+        :param:
             query (str): The proposition symbol to be queried.
 
-        Returns:
+        :return:
             tuple: A tuple containing a boolean indicating if the query was derived,
                    and a set of all derived propositions during the process.
         """
