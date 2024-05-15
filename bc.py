@@ -13,10 +13,10 @@ class BackwardChaining:
         :return: A tuple containing a boolean indicating if the query was proven and a list of all proven propositions.
         """
         proven = []
-        result, _ = self._prove(query, proven, [])
+        result= self.prove(query, proven, [])
         return result, proven
 
-    def _prove(self, query, proven, in_process):
+    def prove(self, query, proven, in_process):
         """
         Recursive method to attempt to prove the query.
 
@@ -38,7 +38,7 @@ class BackwardChaining:
         # Begin processing this query
         in_process.append(query)
         for rule in self.kb.get_rules_for(query):
-            if all(self._prove(premise, proven, in_process)[0] for premise in rule):
+            if all(self.prove(premise, proven, in_process)[0] for premise in rule):
                 if query not in proven:
                     proven.append(query)  # Add to proven list when all premises are proven
                 self.kb.add_fact(query)  # Optionally add to KB facts if that's needed
