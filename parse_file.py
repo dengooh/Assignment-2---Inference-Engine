@@ -5,7 +5,10 @@ class KB_DATA:
     def __init__(self):
         self.filename = sys.argv[1]
         self.method = sys.argv[2]
-        
+
+    def getMethod(self):
+        return self.method
+
     def TellData(self):
         with open(self.filename, "r") as file:
 
