@@ -1,60 +1,49 @@
 class BackwardChaining:
     def __init__(self, knowledge_base):
         """
-        initialize the BackwardChaining instance with a knowledge base (the knowledge base containing facts and rules).
+        Initialize the BackwardChaining instance with a knowledge base containing facts and rules.
         """
         self.kb = knowledge_base
 
     def query(self, query):
         """
-        method to perform a backward chaining query
+        Perform a backward chaining query to determine if the query can be derived from the knowledge base.
 
-        :param query: str typed holding the proposition symbol required
-        :return: a tuple containing a boolean indicating if the query was proven and the set of all proven propositions
+        :param query: The proposition symbol to be queried.
+        :return: A tuple containing a boolean indicating if the query was proven and a list of all proven propositions.
         """
-
-        # initialization of an empty set
-        proven = set()
-        # attempt to prove the query
-        result, proven = self._prove(query, proven)
-        # return the result and the proven propositions
+        proven = []
+        result, _ = self._prove(query, proven, [])
         return result, proven
 
-    def _prove(self, query, proven):
+    def _prove(self, query, proven, in_process):
         """
-        recursive method to attempt to prove the query
-        :param query: (str) the proposition to prove
-        :param proven: (set) a set of already proven propositions to avoid cycles
-        :return: a tuple containing a boolean indicating if the query was proven and the updated set of proven
-                propositions
-        """
+        Recursive method to attempt to prove the query.
 
-        # check if the query is already a known fact.
+        :param query: The proposition to prove.
+        :param proven: A list of already proven propositions to track the order of proof.
+        :param in_process: A list to track propositions currently being processed to avoid cycles.
+        :return: A tuple containing a boolean indicating if the query was proven and the list used for tracking recursion.
+        """
+        # Directly add and return if the query is a known fact or already proven
         if self.kb.is_fact(query):
-            # add the query to the set of proven propositions
-            proven.add(query)
-            # return bool and the set
+            if query not in proven:
+                proven.append(query)
             return True, proven
 
-        # necessary for redundant processing prevention
-        if query in proven:
-            # return false, query is being processed or unprovable
-            return False, proven
+        # Avoid redundant processing and cycles
+        if query in in_process:
+            return False, in_process
 
-        # add the processed query to the set
-        proven.add(query)
-        # get all rules concluding the query
+        # Begin processing this query
+        in_process.append(query)
         for rule in self.kb.get_rules_for(query):
-            # recursively check if all premises of the rule can be proven
-            if all(self._prove(premise, proven)[0] for premise in rule):
-                # if proven, add the query as a fact to KB
-                self.kb.add_fact(query)
-                # and add to the set
-                proven.add(query)
-                # return true, query is proven
+            if all(self._prove(premise, proven, in_process)[0] for premise in rule):
+                if query not in proven:
+                    proven.append(query)  # Add to proven list when all premises are proven
+                self.kb.add_fact(query)  # Optionally add to KB facts if that's needed
+                in_process.remove(query)
                 return True, proven
 
-        # remove the query from processing, as it's not proven
-        proven.remove(query)
-        # return false, indicating failure to prove the query
-        return False, proven
+        in_process.remove(query)
+        return False, in_process
