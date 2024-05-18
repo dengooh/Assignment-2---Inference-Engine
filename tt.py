@@ -50,5 +50,5 @@ class TruthTable:
             assignment for assignment in all_assignments
             if self.satisfies_clauses(assignment) and dict(zip(self.kb.symbols, assignment))[proposition]
         ]
-        return len(satisfying_models), [dict(zip(self.kb.symbols, model)) for model in satisfying_models]
+        return len(satisfying_models)
 

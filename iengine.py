@@ -26,7 +26,7 @@ match data.getMethod():
         # create a TruthTable instance using the same knowledge base
         tt = TruthTable(kb)
         # query the knowledge base using the truth table method to check if 'd' is entailed by the KB
-        num_models, models = tt.query('d')
+        num_models = tt.query('d')
         # print the result
         print("Truth Table result:", num_models)
 
