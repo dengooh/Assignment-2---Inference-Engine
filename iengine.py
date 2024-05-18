@@ -12,6 +12,7 @@ query_data = data.QueryData()
 # instantiate KB instance
 kb = KnowledgeBase(clauses)
 
+
 match data.getMethod():
     case "BC":
         # instantiate BV instance using KB
@@ -25,9 +26,9 @@ match data.getMethod():
         # create a TruthTable instance using the same knowledge base
         tt = TruthTable(kb)
         # query the knowledge base using the truth table method to check if 'd' is entailed by the KB
-        truth_table_result = tt.query(query_data)
+        num_models, models = tt.query('d')
         # print the result
-        print("Truth Table result:", truth_table_result)
+        print("Truth Table result:", num_models)
 
     case "FC":
         # instantiate the FC using KB

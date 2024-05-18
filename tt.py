@@ -4,69 +4,51 @@ from itertools import product
 class TruthTable:
     def __init__(self, knowledge_base):
         """
-        initialize the TruthTable instance with knowledge base
+        Initialize a new TruthTable instance.
 
-        :param knowledge_base: the knowledge base containing facts and rules
+        :param knowledge_base: (KnowledgeBase): An instance of KnowledgeBase containing the clauses.
         """
         self.kb = knowledge_base
 
-    def query(self, query):
+    def evaluate_clause(self, assignment, clause):
         """
-        public method to perform a truth table query to determine if the knowledge base entails the query
+        Evaluate if an assignment satisfies a clause.
 
-        :param query: (str) the proposition symbol to be queried
+        :param assignment: (tuple) A truth assignment for the symbols.
+        :param clause: (str) The clause to evaluate.
 
-        :return: (str) "YES: (number of models that entail the query)", or "NO" if no entailment
+        :return: True if the assignment satisfies the clause, False otherwise.
         """
+        symbols = dict(zip(self.kb.symbols, assignment))
+        if "=>" in clause:
+            premises, conclusion = map(str.strip, clause.split("=>"))
+            premises = map(str.strip, premises.split("&"))
+            return not all(symbols[p] for p in premises) or symbols[conclusion]
+        else:
+            return symbols[clause.strip()]
 
-        # list of all unique proposition symbols in the KB
-        symbols = list(self.kb.symbols)
-        # count of models where the query is true
-        models_count = 0
-        # total count of models where the KB is true
-        total_models = 0
-
-        # generate all possible truth assignments for the symbols.
-        for combination in product([True, False], repeat=len(symbols)):
-            # create a dictionary from symbols to their truth values (truth table)
-            assignment = dict(zip(symbols, combination))
-            # evaluate the entire knowledge base under the current truth assignment
-            if self.evaluate_knowledge_base(assignment):
-                # increment total models where the KB is true
-                total_models += 1
-                # check if the query is also true in this model
-                if assignment.get(query, False):
-                    # increment the count by 1
-                    models_count += 1
-        # check if the query is true in all models where the KB is true
-        if models_count == total_models and total_models > 0:
-            # return "YES" and the number of models
-            return f"YES: {models_count}"
-        # if no entailment(s) then return "NO"
-        return "NO"
-
-    def evaluate_knowledge_base(self, assignment):
+    def satisfies_clauses(self, assignment):
         """
-        evaluate the truth of the entire knowledge base under a given truth assignment.
+        Check if an assignment satisfies all clauses.
 
-        :param assignment: (dict) a dictionary mapping each symbol to a truth value (True or False).
+        :param assignment: (tuple) A truth assignment for the symbols.
 
-        :return: true if the knowledge base is true under this assignment, false otherwise
+        :return: True if the assignment satisfies all clauses, False otherwise.
         """
-        # check each rule defined in the KB
-        for conclusion, rules in self.kb.rules.items():
-            # check if any set of premises that leads to the conclusion is true
-            conclusion_met = any(all(assignment.get(prem, False) for prem in premises) for premises in rules)
-            # the conclusion must match the logical outcome of the premises
-            if assignment.get(conclusion, False) != conclusion_met:
-                # if not, the KB isn't true under this assignment
-                return False
+        return all(self.evaluate_clause(assignment, clause) for clause in self.kb.clauses)
 
-        # ensure that all standalone facts are true in the current assignment.
-        for fact in self.kb.facts:
-            if not assignment.get(fact, False):
-                # if any fact is not true, the KB isn't true under this assignment
-                return False
+    def query(self, proposition):
+        """
+        Check if the given proposition is entailed by the knowledge base.
 
-        # if all checks pass, the KB is true under this assignment
-        return True
+        :param proposition: (str) The proposition to query.
+
+        :return: The number of models that satisfy the clauses and entail the proposition.
+        """
+        all_assignments = list(product([False, True], repeat=len(self.kb.symbols)))
+        satisfying_models = [
+            assignment for assignment in all_assignments
+            if self.satisfies_clauses(assignment) and dict(zip(self.kb.symbols, assignment))[proposition]
+        ]
+        return len(satisfying_models), [dict(zip(self.kb.symbols, model)) for model in satisfying_models]
+

@@ -6,6 +6,7 @@ class KnowledgeBase:
         :param clauses: (list): a list of strings representing the logical clauses,
                                 which may be facts or rules (implications).
         """
+        self.clauses = clauses
         self.facts = []  # A list to store all known facts
         self.rules = {}  # A dictionary to store rules mapped from conclusions to premises
         self.symbols = []  # A list to store all unique symbols (propositions)
@@ -25,7 +26,7 @@ class KnowledgeBase:
                 # Update the symbols list with premises and conclusion to ensure all are tracked.
                 self.update_list(self.symbols, premises)
                 self.update_list(self.symbols, [conclusion])
-                # Append the premises to the conclusion key in the rules dictionary.
+                # Append the premises to the conclusion key in the rule's dictionary.
                 if conclusion in self.rules:
                     if premises not in self.rules[conclusion]:
                         self.rules[conclusion].append(premises)
@@ -70,7 +71,8 @@ class KnowledgeBase:
         """
         return proposition in self.facts
 
-    def update_list(self, target_list, items):
+    @staticmethod
+    def update_list(target_list, items):
         """
         A utility method to add items to a list without adding duplicates.
 

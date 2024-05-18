@@ -25,6 +25,7 @@ class BackwardChaining:
         :param in_process: A list to track propositions currently being processed to avoid cycles.
         :return: A tuple containing a boolean indicating if the query was proven and the list used for tracking recursion.
         """
+        
         # Directly add and return if the query is a known fact or already proven
         if self.kb.is_fact(query):
             if query not in proven:

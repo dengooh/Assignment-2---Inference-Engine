@@ -11,7 +11,8 @@ class ForwardChaining:
         """
         Perform a forward chaining query to determine if a specific proposition can be derived.
 
-        :param query (str): The proposition symbol to be queried.
+        :param:
+            query(str): The proposition symbol to be queried.
 
         :return: A tuple containing a boolean indicating if the query was derived,
                  and a list of all derived propositions during the process with the query last if derived.
@@ -26,7 +27,7 @@ class ForwardChaining:
                 for premises in rules:
                     # Check if all premises of the rule are in the derived list.
                     if all(premise in derived for premise in premises):
-                        # Only add the conclusion if it's not already in the derived list and it's not the query.
+                        # Only add the conclusion if it's not already in the derived list, and it's not the query.
                         if conclusion not in derived and conclusion != query:
                             derived.append(conclusion)
                             added = True
