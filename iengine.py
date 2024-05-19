@@ -26,14 +26,14 @@ match data.getMethod():
         # create a TruthTable instance using the same knowledge base
         tt = TruthTable(kb)
         # query the knowledge base using the truth table method to check if 'd' is entailed by the KB
-        num_models = tt.query('d')
+        result = tt.query(query_data)
         # print the result
-        print("Truth Table result:", num_models)
+        print("Truth Table result:", result)
 
     case "FC":
         # instantiate the FC using KB
         fc = ForwardChaining(kb)
         # query the KB using forward chaining to check if 'd' can be proven
-        result, derived = fc.query("d")
+        result, derived = fc.query(query_data)
         # print the result
         print("Forward Chaining result:", "YES:" + ', '.join(derived) if result else "NO")
