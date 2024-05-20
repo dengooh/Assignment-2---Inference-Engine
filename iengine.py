@@ -20,7 +20,7 @@ match data.getMethod():
         # query the kb using backward chaining to check if 'd' can be proven
         result, proven = bc.query(query_data)
         # print the result
-        print("Backward Chaining result:", "YES:" + ', '.join(proven) if result else "NO")
+        print("Backward Chaining result:", "YES: " + ', '.join(proven) if result else "NO")
 
     case "TT":
         # create a TruthTable instance using the same knowledge base
@@ -36,4 +36,4 @@ match data.getMethod():
         # query the KB using forward chaining to check if 'd' can be proven
         result, derived = fc.query(query_data)
         # print the result
-        print("Forward Chaining result:", "YES:" + ', '.join(derived) if result else "NO")
+        print("Forward Chaining result:", "YES: " + ', '.join(derived) if result else "NO")
