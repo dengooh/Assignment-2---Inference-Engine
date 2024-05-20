@@ -3,6 +3,7 @@ from tt import TruthTable
 from bc import BackwardChaining
 from fc import ForwardChaining
 from parse_file import KB_DATA
+from converter import convert_to_horn_clauses
 
 
 data = KB_DATA()
