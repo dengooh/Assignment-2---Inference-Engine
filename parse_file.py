@@ -1,7 +1,7 @@
 import sys
 
 
-class KB_DATA:
+class ParseFile:
     def __init__(self):
         self.filename = sys.argv[1]
         self.method = sys.argv[2]

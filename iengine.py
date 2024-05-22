@@ -2,11 +2,11 @@ from kb import KnowledgeBase
 from tt import TruthTable
 from bc import BackwardChaining
 from fc import ForwardChaining
-from parse_file import KB_DATA
+from parse_file import ParseFile
 # from converter import convert_to_horn_clauses
 
 
-data = KB_DATA()
+data = ParseFile()
 clauses = data.TellData()
 # clauses = ["p2 => p3", "p3 => p1", "c => e", "b&e => f", "f&g => h", "p2&p1&p3 => d", "p1&p3 => c", "a", "b", "p2"]
 query_data = data.QueryData()
