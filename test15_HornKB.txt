@@ -1,0 +1,4 @@
+TELL
+(p <=> (q ^ r)); p ^ ~q; (p => ~r); q; s ^ t;
+ASK
+r & (s ∨ ~t)
